@@ -1,4 +1,4 @@
-# Posts to News
+# Posts to News Plugin
 
 A ClassicPress or WordPress plugin to change the default posts to "news".
 
@@ -9,3 +9,5 @@ A ClassicPress or WordPress plugin to change the default posts to "news".
 Simply activate.
 
 No settings so fork this if you want to modify the text or the Dashicon icon.
+
+![Posts to News screenshot](https://raw.githubusercontent.com/ControlledChaos/posts-to-news/master/posts-to-news-screenshot.jpg)
