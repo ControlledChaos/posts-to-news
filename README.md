@@ -11,3 +11,5 @@ Simply activate.
 No settings so fork this if you want to modify the text or the Dashicon icon.
 
 ![Posts to News screenshot](https://raw.githubusercontent.com/ControlledChaos/posts-to-news/master/posts-to-news-screenshot.jpg)
+
+![Posts to News screenshot](https://raw.githubusercontent.com/ControlledChaos/posts-to-news/master/posts-to-news-screenshot-02.jpg)
