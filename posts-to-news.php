@@ -258,16 +258,8 @@ final class Posts_To_News {
 			return;
 		}
 
-		// Opening tag.
-		$style = '<style>';
-
-		// Posts icon.
-		$style .= '#dashboard_right_now .post-count a[href="edit.php?post_type=post"]::before, #dashboard_right_now .post-count span::before {
-			content: "\f488" !important;
-		}';
-
-		// Closing tag.
-		$style .= '</style>';
+		// Minified style block.
+		$style = '<style>#dashboard_right_now .post-count a[href="edit.php?post_type=post"]::before,#dashboard_right_now .post-count span::before{content:"\f488"!important;}</style>';
 
 		// Print the style block.
 		echo $style;
@@ -283,15 +275,16 @@ final class Posts_To_News {
 	 * @access public
 	 * @return string Returns the script block in the admin head.
 	 */
-	public function at_glance_text() { ?>
-		<script>jQuery(document).ready( function ($) {
-			$('.post-count a[href="edit.php?post_type=post"]').text(function () {
-				return $(this).text().replace( '1 Post', '1 News Post' );
-			});
-			$('.post-count a[href="edit.php?post_type=post"]').text(function () {
-				return $(this).text().replace( 'Posts', 'News Posts' );
-			});
-		});</script>
+	public function at_glance_text() {
+
+		// Get the screen ID to target the Dashboard.
+        $screen = get_current_screen();
+
+        // Bail if not on the Dashboard screen.
+        if ( $screen->id != 'dashboard' ) {
+			return;
+		} ?>
+		<script>jQuery(document).ready(function(a){a('.post-count a[href="edit.php?post_type=post"]').text(function(){return a(this).text().replace('1 Post','1 News Post')}),a('.post-count a[href="edit.php?post_type=post"]').text(function(){return a(this).text().replace('Posts','News Posts')})});</script>
 	<?php }
 
 }
