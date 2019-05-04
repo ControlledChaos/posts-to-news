@@ -94,6 +94,7 @@ final class Posts_To_News {
 		// Submenus of the "Posts" position in the admin menu.
 		$submenu['edit.php'][5][0]  = __( 'News', 'posts-to-news' );
 		$submenu['edit.php'][10][0] = __( 'Add News', 'posts-to-news' );
+		$submenu['edit.php'][15][0] = __( 'News Categories', 'posts-to-news' );
 		$submenu['edit.php'][16][0] = __( 'News Tags', 'posts-to-news' );
 
 	}
