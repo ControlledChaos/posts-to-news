@@ -19,10 +19,10 @@
  * License URI:  https://www.gnu.org/licenses/gpl.txt
  * Text Domain:  posts-to-news
  * Domain Path:  /languages
- * Tested up to: 5.1
+ * Tested up to: 5.8
  */
 
-namespace CCD_Posts_to_News;
+namespace Posts_to_News;
 
 /**
  * License & Warranty
@@ -57,6 +57,24 @@ if ( ! defined( 'WPINC' ) ) {
 final class Posts_To_News {
 
 	/**
+	 * Menu name
+	 *
+	 * @since  1.0.0
+	 * @access protected
+	 * @var    string The menu name of the post type.
+	 */
+	protected $menu_name = 'News';
+
+	/**
+	 * Singular name
+	 *
+	 * @since  1.0.0
+	 * @access protected
+	 * @var    string The singular name of the post type.
+	 */
+	protected $singular = 'news post';
+
+	/**
 	 * Constructor method.
 	 *
 	 * @since  1.0.0
@@ -71,7 +89,6 @@ final class Posts_To_News {
 		add_filter( 'post_updated_messages', [ $this, 'change_page_messages' ] );
 		add_action( 'admin_head', [ $this, 'dashboard_icons' ] );
 		add_action( 'admin_footer', [ $this, 'at_glance_text' ] );
-
 	}
 
 	/**
@@ -89,14 +106,18 @@ final class Posts_To_News {
 		global $menu, $submenu;
 
 		// The "Posts" position in the admin menu.
-		$menu[5][0] = __( 'News', 'posts-to-news' );
+		$menu[5][0] = $this->menu_name();
 
 		// Submenus of the "Posts" position in the admin menu.
-		$submenu['edit.php'][5][0]  = __( 'News', 'posts-to-news' );
-		$submenu['edit.php'][10][0] = __( 'Add News', 'posts-to-news' );
-		$submenu['edit.php'][15][0] = __( 'News Categories', 'posts-to-news' );
-		$submenu['edit.php'][16][0] = __( 'News Tags', 'posts-to-news' );
+		if ( current_user_can( 'edit_posts' ) ) {
+			$submenu['edit.php'][5][0]  = __( 'News', 'posts-to-news' );
+			$submenu['edit.php'][10][0] = __( 'Add News', 'posts-to-news' );
+		}
 
+		if ( current_user_can( 'manage_categories' ) ) {
+			$submenu['edit.php'][15][0] = __( 'News Categories', 'posts-to-news' );
+			$submenu['edit.php'][16][0] = __( 'News Tags', 'posts-to-news' );
+		}
 	}
 
 	/**
@@ -114,20 +135,43 @@ final class Posts_To_News {
 
 		// The labels of the array.
 		$labels = $wp_post_types['post']->labels;
-		$labels->name               = __( 'News', 'posts-to-news' );
-		$labels->singular_name      = __( 'News', 'posts-to-news' );
+		$labels->name               = __( 'News Posts', 'posts-to-news' );
+		$labels->menu_name          = $this->menu_name();
+		$labels->singular_name      = ucwords( $this->singular() );
 		$labels->add_new            = __( 'Add News', 'posts-to-news' );
-		$labels->add_new_item       = __( 'Add News', 'posts-to-news' );
-		$labels->edit_item          = __( 'Edit News', 'posts-to-news' );
-		$labels->new_item           = __( 'News', 'posts-to-news' );
-		$labels->view_item          = __( 'View News', 'posts-to-news');
-		$labels->search_items       = __( 'Search News', 'posts-to-news' );
-		$labels->not_found          = __( 'No News found', 'posts-to-news' );
-		$labels->not_found_in_trash = __( 'No News found in Trash', 'posts-to-news' );
+		$labels->add_new_item       = __( 'Add News Post', 'posts-to-news' );
+		$labels->edit_item          = __( 'Edit News Post', 'posts-to-news' );
+		$labels->new_item           = __( 'Add News Post', 'posts-to-news' );
+		$labels->view_item          = __( 'View News Post', 'posts-to-news');
+		$labels->search_items       = __( 'Search News Posts', 'posts-to-news' );
+		$labels->not_found          = __( 'No News Posts found', 'posts-to-news' );
+		$labels->not_found_in_trash = __( 'No News Posts found in Trash', 'posts-to-news' );
 		$labels->all_items          = __( 'All News', 'posts-to-news'  );
-		$labels->menu_name          = __( 'News', 'posts-to-news' );
-		$labels->name_admin_bar     = __( 'News', 'posts-to-news' );
+		$labels->name_admin_bar     = ucwords( $this->singular() );
+	}
 
+	/**
+	 * Menu name
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return string Returns the translated menu name.
+	 */
+	public function menu_name() {
+		$menu_name = $this->menu_name;
+		return __( $menu_name, 'posts-to-news' );
+	}
+
+	/**
+	 * Singular name
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @return string Returns the translated singular name.
+	 */
+	public function singular() {
+		$singular = $this->singular;
+		return __( $singular, 'posts-to-news' );
 	}
 
 	/**
@@ -145,7 +189,7 @@ final class Posts_To_News {
 
 		foreach ( $menu as $key => $val ) {
 
-			if ( __( 'News', 'posts-to-news' ) == $val[0] ) {
+			if ( $this->menu_name() == $val[0] ) {
 				$menu[$key][6] = 'dashicons-megaphone';
 			}
 		}
@@ -237,7 +281,6 @@ final class Posts_To_News {
 
 		// Return the array of messages.
 		return $messages;
-
 	}
 
 	/**
@@ -264,7 +307,6 @@ final class Posts_To_News {
 
 		// Print the style block.
 		echo $style;
-
 	}
 
 	/**
