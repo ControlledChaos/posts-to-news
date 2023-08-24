@@ -72,6 +72,7 @@ function news_posts_labels() {
 	$labels = [
 		'name'                  => ucwords( plural() ),
 		'menu_name'             => ucwords( menu_name() ),
+		'menu_icon'             => get_news_icon(),
 		'singular_name'         => ucwords( singular() ),
 		'all_items'             => ucwords( plural() ),
 		'add_new'               => __( 'Add News', 'posts-to-news' ),
@@ -115,6 +116,7 @@ function rewrite_type_labels() {
 	// New post type labels.
 	$type_obj->labels->name                  = $labels['name'];
 	$type_obj->labels->menu_name             = $labels['menu_name'];
+	$type_obj->menu_icon                     = $labels['menu_icon'];
 	$type_obj->labels->singular_name         = $labels['singular_name'];
 	$type_obj->labels->all_items             = $labels['all_items'];
 	$type_obj->labels->add_new               = $labels['add_new'];
